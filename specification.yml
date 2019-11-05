@@ -464,6 +464,11 @@ title:    flattenDeep with undefined properties
 context:  {}
 template: {$flattenDeep: [[1, [2, 3]], [4], 5], foo: 'bar'}
 error: 'TemplateError: $flattenDeep has undefined properties: foo'
+---
+title:    flattenDeep with key not found
+context:  {'tasks_for': 'foo', 'event': {}}
+template: {'tasks': {'$flattenDeep': [{'$if': 'tasks_for == "github-push"'}, {'$if': 'tasks_for == "github-pull-request"'}, {'$map': [{}], 'each(operation)': [{'$if': 'event.action'}]}]}}
+result:   'TemplateError at template.tasks[2][0]: "action" not found in {}'
 ################################################################################
 ---
 section:  fromNow
